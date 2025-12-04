@@ -1,3 +1,4 @@
 outs:
 - md5: 86451bd526f5f95760f0b7a412508746.dir
   path: data
+# registered from the shared DVC remote; run `dvc pull` before training
