@@ -2,3 +2,4 @@
     remote = remote
 ['remote "remote"']
     url = gdrive://1ynNBbT-4J0ida0eKYQqZZbC93juUUbVH
+# keep the cache outside the repository when running in CI
