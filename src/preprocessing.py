@@ -2,7 +2,6 @@ import numpy as np
 import pandas as pd 
 
 import nltk
-nltk.download('all')
 from nltk.tokenize import TweetTokenizer
 from nltk.corpus import stopwords
 import string
@@ -42,9 +41,38 @@ class RegexReplacer(object):
             s = re.sub(pattern, repl, s)
         return s
 
+_REQUIRED = ("stopwords", "punkt", "wordnet", "omw-1.4")
+
+
+def ensure_nltk_data(packages=_REQUIRED):
+    """Download only the resources this pipeline uses, at call time (never at import)."""
+    missing = []
+    probes = {
+        "stopwords": lambda: stopwords.words("english"),
+        "punkt": lambda: nltk.data.find("tokenizers/punkt"),
+        "wordnet": lambda: WordNetLemmatizer().lemmatize("tests"),
+        "omw-1.4": lambda: nltk.data.find("corpora/omw-1.4"),
+    }
+    for name in packages:
+        try:
+            probes[name]()
+        except LookupError:
+            missing.append(name)
+    if missing:
+        nltk.download(",".join(missing), quiet=True)
+        for name in missing:
+            try:
+                probes[name]()
+            except LookupError as exc:
+                raise LookupError(
+                    "NLTK resource %r is missing and the download did not provide it" % name
+                ) from exc
+
+
 class ProcessText:
 
     def __init__(self):
+        ensure_nltk_data()
         self.tknz = TweetTokenizer()
         self.replacer = RegexReplacer()
         self.stopwords = set(stopwords.words('english'))
