@@ -57,3 +57,8 @@ mlflow ui
 ```
 Access http://localhost:5000/ from the same directory that you run the file, you should be able to see your experiment like this
 ![image](https://github.com/khuyentran1401/Machine-learning-pipeline/blob/master/Screenshot%20from%202020-05-03%2016-41-21.png)
+
+## Maintenance
+
+`tests/` runs without the full pipeline: the config parsing and the NLTK bootstrap are covered
+by stdlib tests (`python -m unittest discover -s tests -v`), and CI runs them on every push.
