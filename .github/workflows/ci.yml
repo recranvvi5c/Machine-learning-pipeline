@@ -8,5 +8,5 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - run: pip install scikit-learn nltk
+      - run: pip install scikit-learn nltk hydra-core
       - run: python -m unittest discover -s tests -v
